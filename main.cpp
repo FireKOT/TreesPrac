@@ -2,27 +2,31 @@
 #include <time.h>
 #include <cstdlib>
 
-#include "binSortTree.hpp"
+#include "AVL.hpp"
 
 
-void testRandData (const char *out_file_name, int quantity);
-void testSortData (const char *out_file_name, int quantity);
+void testRandData (const char *out_insert_file_name, const char *out_delete_file_name, int quantity);
+void testSortData (const char *out_insert_file_name, const char *out_delete_file_name, int quantity);
 
- void SwapInt (int *a, int *b);
+void SwapInt (int *a, int *b);
 
 
 int main () {
 
-    testRandData("binSearchTree_randData.txt", 100000);
-    testSortData("binSearchTree_sortData.txt", 100000);
+    for (int i = 100000; i <= 1000000; i += 100000) {
+
+        testRandData("AVL_randData_insert.txt", "AVL_randData_delete.txt", i);
+        testRandData("AVL_sortData_insert.txt", "AVL_sortData_delete.txt", i);
+    }
 
     return 0;
 }
 
 
-void testRandData (const char *out_file_name, int quantity) {
+void testRandData (const char *out_insert_file_name, const char *out_delete_file_name, int quantity) {
 
-    FILE *out = fopen(out_file_name, "w");
+    FILE *out_insert = fopen(out_insert_file_name, "a");
+    FILE *out_delete = fopen(out_delete_file_name, "a");
 
     Node *root = nullptr;
 
@@ -47,7 +51,8 @@ void testRandData (const char *out_file_name, int quantity) {
     }
     clock_t time_end = clock();
 
-    fprintf(out, "Insertion time: %lg ms\n", 1000.0 * ((double) (time_end - time_start)) / CLOCKS_PER_SEC);
+    fprintf(out_insert, "%d %lg\n", quantity, 1000.0 * ((double) (time_end - time_start)) / CLOCKS_PER_SEC);
+    fclose(out_insert);
 
     time_start = clock();
     for (int i = 0; i < quantity / 2; i++) {
@@ -56,15 +61,16 @@ void testRandData (const char *out_file_name, int quantity) {
     }
     time_end = clock();
 
-    fprintf(out, "Deletion time: %lg ms\n\n", 1000.0 * ((double) (time_end - time_start)) / CLOCKS_PER_SEC);
+    fprintf(out_delete, "%d %lg\n", quantity, 1000.0 * ((double) (time_end - time_start)) / CLOCKS_PER_SEC);
+    fclose(out_delete);
 
-    fclose(out);
     free(rand_data);
  }
 
- void testSortData (const char *out_file_name, int quantity) {
+ void testSortData (const char *out_insert_file_name, const char *out_delete_file_name, int quantity) {
 
-    FILE *out = fopen(out_file_name, "w");
+    FILE *out_insert = fopen(out_insert_file_name, "a");
+    FILE *out_delete = fopen(out_delete_file_name, "a");
 
     Node *root = nullptr;
 
@@ -89,7 +95,8 @@ void testRandData (const char *out_file_name, int quantity) {
     }
     clock_t time_end = clock();
 
-    fprintf(out, "Insertion time: %lg ms\n", 1000.0 * ((double) (time_end - time_start)) / CLOCKS_PER_SEC);
+    fprintf(out_insert, "Insertion time: %lg ms\n", 1000.0 * ((double) (time_end - time_start)) / CLOCKS_PER_SEC);
+    fclose(out_insert);
 
     time_start = clock();
     for (int i = 0; i < quantity / 2; i++) {
@@ -98,9 +105,9 @@ void testRandData (const char *out_file_name, int quantity) {
     }
     time_end = clock();
 
-    fprintf(out, "Deletion time: %lg ms\n\n", 1000.0 * ((double) (time_end - time_start)) / CLOCKS_PER_SEC);
+    fprintf(out_delete, "Deletion time: %lg ms\n\n", 1000.0 * ((double) (time_end - time_start)) / CLOCKS_PER_SEC);
+    fclose(out_delete);
 
-    fclose(out);
     free(rand_data);
  }
 
