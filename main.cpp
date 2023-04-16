@@ -2,7 +2,7 @@
 #include <time.h>
 #include <cstdlib>
 
-#include "AVL.hpp"
+#include "treap.hpp"
 
 
 void testRandData (const char *out_insert_file_name, const char *out_delete_file_name, int quantity);
@@ -15,8 +15,8 @@ int main () {
 
     for (int i = 100000; i <= 1000000; i += 100000) {
 
-        testRandData("AVL_randData_insert.txt", "AVL_randData_delete.txt", i);
-        testRandData("AVL_sortData_insert.txt", "AVL_sortData_delete.txt", i);
+        testRandData("Treap_randData_insert.txt", "Treap_randData_delete.txt", i);
+        testRandData("Treap_sortData_insert.txt", "Treap_sortData_delete.txt", i);
     }
 
     return 0;
