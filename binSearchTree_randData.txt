@@ -1,0 +1,3 @@
+Insertion time: 20.694 ms
+Deletion time: 3.006 ms
+
